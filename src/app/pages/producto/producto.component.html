@@ -1,0 +1,177 @@
+<div *ngIf="!product">
+    Cargando
+</div>
+
+<!-- DATA -->
+<div *ngIf="product" class="d-flex flex-wrap gap-2">
+
+    <div class="card bg-primary">
+        <div class="card-body text-white text-center">
+            <p class="text-white mb-2 fw-bold">Inventario</p>
+            <h4 class="text-white mb-0 display-6">
+                {{ product.inventory }}
+            </h4>
+        </div>
+    </div>
+
+    <div class="card bg-success">
+        <div class="card-body text-white text-center">
+            <p class="text-white mb-2 fw-bold">Vendidos</p>
+            <h4 class="text-white mb-0 display-6">
+                {{ product.sold }}
+            </h4>
+        </div>
+    </div>
+
+    <div class="card bg-warning">
+        <div class="card-body text-white text-center">
+            <p class="text-white mb-2 fw-bold">Devueltos</p>
+            <h4 class="text-white mb-0 display-6">
+                {{ product.returned }}
+            </h4>
+        </div>
+    </div>
+
+
+</div>
+
+<div *ngIf="product" class="d-flex flex-wrap">
+
+
+    <!-- IMGS -->
+    <div class="col-md-6">
+
+        <div class="card">
+
+            <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-info btn-circle"><i class="fa fa-plus"></i> </button>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <img [src]="portada | imagen: 'products' " alt="image" class="img-responsive img-rounded" width="150">
+                </div>
+
+                <hr>
+
+                <div>
+                    <h4>Imagenes</h4>
+                    <p *ngIf="product.img.length === 0">No se han cargado las imagenes del producto</p>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+
+
+                    <div *ngFor="let pic of product.img">
+                        <img [src]="pic.img | imagen: 'products' " alt="image" class="img-responsive img-rounded" width="50">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- INFO PRODUCT -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title fw-bold">Información del producto <small *ngIf="!product.status" class="text-danger">Desactivado</small> </h4>
+                    <button (click)="changeStatus(product.status)" type="button" class="btn btn-sm waves-effect waves-light" [ngClass]="{'btn-danger': product.status, 'btn-success': !product.status}">
+                        <span *ngIf="product.status">Desactivar</span>
+                        <span *ngIf="!product.status">Activar</span>
+                    </button>
+                </div>
+                <hr>
+
+                <form class="form-horizontal form-material" autocomplete="off" [formGroup]="updateForm" (ngSubmit)="update()">
+
+                    <div class="form-group has-danger">
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="">Codigo</label>
+                            <input formControlName="sku" type="text" class="form-control" placeholder="sku - codigo **">
+                            <div *ngIf="validate('sku')" class="form-control-feedback">
+                                <small> El codigo es obligatorio </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="">Nombre</label>
+                            <input formControlName="name" type="text" class="form-control" placeholder="Nombre **">
+                            <div *ngIf="validate('name')" class="form-control-feedback">
+                                <small> El nombre es obligatorio </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="estado"> Tipo</label>
+                            <select formControlName="type" class="form-control" id="estado">
+                                <option value="Unidad" >Unidad</option>
+                                <option value="Granel" >Granel</option>
+                            </select>
+                        </div>
+
+                        <!-- DESCIPCION DEL PRODUCTO -->
+                        <div class="form-group">
+                            <label>Descripción del producto</label>
+                            <textarea formControlName="description" class="form-control" rows="3" #description placeholder="Escribe la descripción del producto..."></textarea>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="">Costo</label>
+                            <input formControlName="cost" type="number" min="0" class="form-control" placeholder="Costo">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="">Precio</label>
+                            <input formControlName="price" type="number" class="form-control" placeholder="Precio">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="">Minimo</label>
+                            <input formControlName="min" type="number" class="form-control" placeholder="Min">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Seleccionar Categoria</label>
+                            <div class="col-sm-12">
+                                <select formControlName="categoria" class="form-control form-control-line" (change)="loadSubcategories(categoryS.value)" #categoryS>
+                                    <option value="none" disabled>Seleccionar</option>
+                                    
+                                    <ng-container *ngFor="let category of categories" >
+                                        <option *ngIf="category.status" [value]="category.catid"> {{category.name}} </option>
+                                    </ng-container>                                
+    
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-12">Seleccionar Subcategoria</label>
+                            <div class="col-sm-12">
+                                <select formControlName="subcategoria" class="form-control form-control-line">
+                                    <option value="none" disabled>Seleccionar</option>
+                                    
+                                    <ng-container *ngIf="subcategories.length > 0">
+                                       <ng-container *ngFor="let subcategory of subcategories" >
+                                            <option *ngIf="subcategory.status" [value]="subcategory.subcaid"> {{subcategory.name}} </option>
+                                        </ng-container>                                
+                                    </ng-container>
+    
+                                </select>
+                            </div>
+                        </div>
+
+                        <small class="mb-0 text-muted text-break"> <span class="fw-bold">NOTA:</span> Los campos de texto que tengan ** son obligatorios.</small>
+
+                    </div>
+
+                    <button type="submit" [disabled]="formSubmitted" class="btn btn-info waves-effect btn-block">Actualizar</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>

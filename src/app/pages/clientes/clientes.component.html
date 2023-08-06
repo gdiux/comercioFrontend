@@ -1,0 +1,236 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between flex-wrap mt-1">
+
+                    <div>
+                        <h4 class="card-title">Lista de Clientes</h4>
+                        <h6 class="card-subtitle">Total: {{ total | number }}</h6>
+
+                    </div>
+                    <div>
+                        <!-- <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-client">Agregar Cliente</button> -->
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between flex-wrap mt-1">
+                    <div class="my-2">
+                        <input type="text" id="demo-input-search2" placeholder="Buscar Clientes" (keyup)="search(buscador.value)" (keyup.enter)="search(buscador.value)" class="form-control m-0" #buscador>
+                        <small *ngIf="resultados > 0" class="text-muted animated fadeIn">Resultados: {{resultados}}</small>
+                    </div>
+
+                    <div class="my-2">
+
+
+                        <label for="mostrar" class="me-2">Mostrar: </label>
+                        <select name="" id="" [value]="limite" #mostrar (change)="limiteChange(mostrar.value)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="250">250</option>
+                            <option value="500">500</option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="demo-foo-addrow" class="table m-t-30 table-hover contact-list" data-page-size="10">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Telefono</th>
+                                <th>Direccion</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr *ngIf="clients.length == 0">
+                                <td colspan="5">
+                                    <h3 class="mb-0 text-center"> Aun no existen registros de clientes... </h3>
+                                </td>
+                            </tr>
+
+                            <tr *ngFor="let client of clients">
+                                <!-- products-client -->
+                                <td>
+                                    <button (click)="loadProductsClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#products-client">
+                                        {{ client.name }} 
+                                    </button>
+                                </td>
+                                <td> {{ client.phone }} </td>
+                                <td> {{ client.address }} </td>
+                                <td>
+                                    <span *ngIf="client.status" class="label label-success"> Activo </span>
+                                    <span *ngIf="!client.status" class="label label-danger"> Desactivado </span>
+                                </td>
+                                <td>
+                                    <button (click)="selectClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#edit-client">
+                                        <i class="ti-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Desactivar">
+                                        <i class="ti-close" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+
+                                <td colspan="5">
+
+                                    <div class="btn-group" role="group" aria-label="First group">
+                                        <button [disabled]="desde === 0" (click)="cambiarPagina(-10)" type="button" class="btn btn-dark text-white">Atras</button>
+                                        <button [disabled]="( desde + limite ) >= total" (click)="cambiarPagina(10)" type="button" class="btn btn-dark text-white">Siguiente</button>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================= 
+MODAL AGREGAR CLIENTE
+======================================================== -->
+<div id="add-client" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" #modalNewUser>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo Cliente</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <form class="form-horizontal form-material" autocomplete="off" [formGroup]="newClientForm" (ngSubmit)="createClient()">
+
+                    <div class="form-group has-danger">
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="name" type="text" class="form-control" placeholder="Nombres **">
+                            <div *ngIf="validateNewForm('name')" class="form-control-feedback">
+                                <small> Los nombres son obligatorios </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="phone" type="text" class="form-control" placeholder="Telefono **">
+                            <div *ngIf="validateNewForm('phone')" class="form-control-feedback">
+                                <small> El telefono es obligatorio </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="cedula" type="text" class="form-control" placeholder="Cedula">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="email" type="email" class="form-control" placeholder="Email">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="address" type="text" class="form-control" placeholder="Dirección">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="city" type="text" class="form-control" placeholder="Ciudad">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="department" type="text" class="form-control" placeholder="Departamento">
+                        </div>
+
+                        <small class="mb-0 text-muted text-break"> <span class="fw-bold">NOTA:</span> Los campos de texto que tengan ** son obligatorios.</small>
+
+                    </div>
+
+                    <button type="submit" [disabled]="savingNew" class="btn btn-info waves-effect btn-block">Guardar</button>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================= 
+MODAL EDITAR CLIENTE
+======================================================== -->
+<div id="edit-client" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" #modalNewUser>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Editar Cliente</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <form class="form-horizontal form-material" autocomplete="off" [formGroup]="editClientForm" (ngSubmit)="editClient()">
+
+                    <div class="form-group has-danger">
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="name" type="text" class="form-control" placeholder="Nombres **">
+                            <div *ngIf="validateEditForm('name')" class="form-control-feedback">
+                                <small> Los nombres son obligatorios </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="phone" type="text" class="form-control" placeholder="Telefono **">
+                            <div *ngIf="validateEditForm('phone')" class="form-control-feedback">
+                                <small> El telefono es obligatorio </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="cedula" type="text" class="form-control" placeholder="Cedula">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="email" type="email" class="form-control" placeholder="Email">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="address" type="text" class="form-control" placeholder="Dirección">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="city" type="text" class="form-control" placeholder="Ciudad">
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="department" type="text" class="form-control" placeholder="Departamento">
+                        </div>
+
+                        <small class="mb-0 text-muted text-break"> <span class="fw-bold">NOTA:</span> Los campos de texto que tengan ** son obligatorios.</small>
+
+                    </div>
+
+                    <button type="submit" [disabled]="savingNew" class="btn btn-info waves-effect btn-block">Guardar</button>
+                </form>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
