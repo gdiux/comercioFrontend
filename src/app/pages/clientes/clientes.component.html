@@ -45,6 +45,7 @@
                                 <th>Nombre</th>
                                 <th>Telefono</th>
                                 <th>Direccion</th>
+                                <th>Codigo</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -58,14 +59,14 @@
                             </tr>
 
                             <tr *ngFor="let client of clients">
-                                <!-- products-client -->
                                 <td>
-                                    <button (click)="loadProductsClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#products-client">
+                                    <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#products-client">
                                         {{ client.name }} 
                                     </button>
                                 </td>
                                 <td> {{ client.phone }} </td>
                                 <td> {{ client.address }} </td>
+                                <td> {{ client.referralCode }} </td>
                                 <td>
                                     <span *ngIf="client.status" class="label label-success"> Activo </span>
                                     <span *ngIf="!client.status" class="label label-danger"> Desactivado </span>

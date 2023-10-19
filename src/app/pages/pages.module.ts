@@ -23,6 +23,11 @@ import { ProductoComponent } from './producto/producto.component';
 import { CardsComponent } from './dashboard/components/cards/cards.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
+import { FacturarComponent } from './facturar/facturar.component';
+import { PedidoComponent } from './pedido/pedido.component';
+import { FacturasComponent } from './facturas/facturas.component';
+import { FacturaComponent } from './factura/factura.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,12 @@ import { SubcategoriasComponent } from './subcategorias/subcategorias.component'
     ProductoComponent,
     CardsComponent,
     CategoriasComponent,
-    SubcategoriasComponent
+    SubcategoriasComponent,
+    PedidosComponent,
+    FacturarComponent,
+    PedidoComponent,
+    FacturasComponent,
+    FacturaComponent
   ],
   exports:[
     DashboardComponent,

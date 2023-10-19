@@ -9,8 +9,6 @@ import { ImagenPipe } from './imagen.pipe';
 @NgModule({
   declarations: [ImagenPipe],
   exports: [ImagenPipe],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule]
 })
 export class PipesModule { }

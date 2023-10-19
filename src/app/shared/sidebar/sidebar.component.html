@@ -39,6 +39,33 @@
 
                 <li>
                     <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="mdi mdi-monitor"></i>
+                        <span class="hide-menu">Facturación 
+                            <!-- <span class="label label-rouded label-themecolor pull-right">4</span> -->
+                        </span>
+                    </a>
+
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a [routerLink]="['/dashboard/facturar']" routerLinkActive="active">Facturar </a></li>
+                        <li><a [routerLink]="['/dashboard/facturas']" routerLinkActive="active">Facturas </a></li>
+                    </ul>
+                </li>
+                
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
+                        <i class="mdi mdi-truck"></i>
+                        <span class="hide-menu">Pedidos 
+                            <!-- <span class="label label-rouded label-themecolor pull-right">4</span> -->
+                        </span>
+                    </a>
+
+                    <ul aria-expanded="false" class="collapse">
+                        <li><a [routerLink]="['/dashboard/pedidos']" routerLinkActive="active">Pedidos </a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
                         <i class="mdi mdi-bullseye"></i>
                         <span class="hide-menu">Productos</span>
                     </a>

@@ -55,6 +55,13 @@ export class ProductsService {
   }
 
   /** ================================================================
+   *   GET PRODUCT ID
+  ==================================================================== */
+  loadProductCode(code: string){
+    return this.http.get<{product: Product, ok: boolean}>(`${base_url}/products/codigo/${code}`, this.headers);
+  }
+
+  /** ================================================================
    *   GET PRODUCTS OF CLIENTS
   ==================================================================== */
   loadProductsClient(client: string){

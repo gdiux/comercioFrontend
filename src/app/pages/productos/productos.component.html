@@ -64,7 +64,11 @@
                             <tr *ngFor="let product of products">
 
                                 <td>{{product.sku}}</td>
-                                <td>{{product.name}}</td>
+                                <td>
+                                    <a routerLink="/dashboard/producto/{{product.pid!}}">
+                                        {{product.name}}
+                                    </a>
+                                </td>
                                 <td>{{product.type}}</td>
                                 <td>{{product.price | currency: 'COP'}}</td>
                                 <td>{{product.inventory}}</td>
@@ -77,7 +81,7 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <a routerLink="/dashboard/producto/{{product.pid!}}" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="modal" data-target="#edit-category">
+                                    <a routerLink="/dashboard/producto/{{product.pid!}}" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn">
                                         <i class="ti-pencil" aria-hidden="true"></i>
                                     </a>
                                 </td>

@@ -35,7 +35,7 @@ export class FileUploadService {
   ==================================================================== */
   async updateImage(
     archivo: File,
-    type: 'products' | 'logo' | 'user' | 'preventives' | 'correctives',
+    type: 'products' | 'logo' | 'user',
     id: string,
     desc: 'imgBef' | 'imgAft' | 'video' | 'none' = 'none'
   ){
@@ -74,15 +74,12 @@ export class FileUploadService {
   /** ================================================================
    *   DELETE IMAGES
   ==================================================================== */
-  deleteImg(
-    type: 'products' | 'logo' | 'user' | 'preventives' | 'correctives',
+  deleteFile(
+    img: string, 
     id: string,
-    desc: 'imgBef' | 'imgAft' | 'video' | 'img' = 'img',
-    img: string
-  ){
-
-    return this.http.delete(`${base_url}/uploads/delete/${type}/${id}/${desc}/${img}`, this.headers);
-
+    type: 'products' | 'user',
+    ){
+    return this.http.delete<any>(`${base_url}/uploads/delete/${type}/${img}/${id}`, this.headers);
   }
 
 

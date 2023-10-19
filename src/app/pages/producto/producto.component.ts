@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
+
+import SwiperCore, { FreeMode, Navigation, Pagination, Scrollbar, A11y, Autoplay, EffectFade } from 'swiper';
+// install Swiper modules
+SwiperCore.use([FreeMode, Navigation, Pagination, Scrollbar, A11y, Autoplay, EffectFade]);
 
 // MODELS
 import { Product } from 'src/app/models/products.model';
@@ -12,12 +16,12 @@ import { CategoriasService } from 'src/app/services/categorias.service';
 import { SubcategoriasService } from 'src/app/services/subcategorias.service';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
+import { FileUploadService } from 'src/app/services/file-upload.service';
 
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',
-  styles: [
-  ]
+  styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent implements OnInit {
 
@@ -26,7 +30,8 @@ export class ProductoComponent implements OnInit {
                 private router: Router,
                 private fb: FormBuilder,
                 private categoriasService: CategoriasService,
-                private subcategoriasService: SubcategoriasService) {}
+                private subcategoriasService: SubcategoriasService,
+                private fileUploadService: FileUploadService) {}
 
   ngOnInit(): void {
 
@@ -204,6 +209,96 @@ export class ProductoComponent implements OnInit {
           console.log(err);
           Swal.fire('Error', err.error.msg, 'error');
         })
+
+  }
+
+  /** ================================================================
+   *   ACTUALIZAR IMAGEN
+  ==================================================================== */
+  public imgTempP: any = null;
+  public subirImagen!: any;
+  cambiarImage(file: any): any{  
+    
+    this.subirImagen = file.target.files[0];
+    
+    if (!this.subirImagen) { return this.imgTempP = null }    
+    
+    const reader = new FileReader();
+    const url64 = reader.readAsDataURL(file.target.files[0]);
+        
+    reader.onloadend = () => {
+      this.imgTempP = reader.result;      
+    }
+
+  }
+
+  /** ================================================================
+   *  SUBIR IMAGEN
+  ==================================================================== */
+  @ViewChild('fileImg') fileImg!: ElementRef;
+  public imgPerfil: string = 'no-image';
+  subirImg(){
+    
+    this.fileUploadService.updateImage( this.subirImagen, 'products', this.product.pid)
+    .then( 
+      (resp:{ date: Date, nombreArchivo: string, ok: boolean }) => {
+        
+        this.product.img.push({
+          img: resp.nombreArchivo,
+          fecha: resp.date
+        })
+      }
+    );
+    
+    this.fileImg.nativeElement.value = '';
+    this.imgTempP = null;
+    
+  }
+
+  /** ================================================================
+   *  ELIMINAR IMAGEN
+  ==================================================================== */
+  deleImg(img: string){
+
+    this.fileUploadService.deleteFile(img, this.product.pid, 'products')
+        .subscribe( (resp: {product: Product}) => {
+          
+          this.product.img = resp.product.img;
+          Swal.fire('Estupendo', 'Se ha eliminado la imagen exitosamente!', 'success');
+          
+        }, (err)  => {
+          console.log(err);
+          Swal.fire('Error', err.error.msg, 'error');          
+        });
+
+  }
+
+  /** ================================================================
+   *  CONFIG SWIPER
+  ==================================================================== */  
+  public config = {
+    slidesPerView:1,
+    spaceBetween:10,
+    centeredSlides: true,
+    navigation: true,
+    pagination: { clickable: true, dynamicBullets: true },
+    breakpoints:{
+      '450': {
+        slidesPerView: 2,
+        spaceBetween: 20,
+        centeredSlides: false,
+      },
+      '640': {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        centeredSlides: false,
+      },
+      '768': {
+        slidesPerView: 3,
+        spaceBetween: 40,
+        centeredSlides: false,
+      },
+    }
 
   }
 

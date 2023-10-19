@@ -1,0 +1,46 @@
+<div class="d-flex flex-wrap gap-2">
+
+    <div class="card col-md-8 p-0">
+        <div class="card-body">
+            <h4 class="card-title">Lista de facturas</h4>
+            <div class="table-responsive">
+                <table id="demo-foo-addrow" class="table m-t-30 table-hover no-wrap contact-list" data-page-size="10">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Monto</th>
+                            <th>Fecha</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let invoice of invoices">
+                            <td>
+                                <a class="pointer" [routerLink]="['/dashboard/factura', invoice.iid]" > {{ invoice.invoice }} </a>
+                            </td>
+                            <td>
+                                <span *ngIf="!invoice.client">Consumidor Final</span>
+                                <span *ngIf="invoice.client"> {{ invoice.client.name }} <span *ngIf="invoice.client.lastname"> {{invoice.client.lastname}} </span> </span>
+                                
+                            </td>
+                            <td> {{ invoice.amount | currency:'COP' : 'symbol' : '1.0-0' }} </td>
+                            <td> {{ invoice.fecha | date: 'short' }} </td>
+                            <td>
+                                <a [routerLink]="['/dashboard/factura', invoice.iid]" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn">
+                                    <i class="ti-arrow-top-right" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLUMN -->
+    <div class="col-md-4">
+
+    </div>
+
+</div>

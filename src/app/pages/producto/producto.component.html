@@ -44,12 +44,36 @@
         <div class="card">
 
             <div class="card-body">
-                <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-info btn-circle"><i class="fa fa-plus"></i> </button>
+        
+                <div class="form-group file-area border">
+                    <input #fileImg (change)="cambiarImage($event)" type="file" name="images" id="images" required="required" multiple="multiple" />
+                    <div class="file-dummy">
+        
+                        <div class="default py-5">
+                            <h5 class="text-center card-title text-muted">
+                                Agregar Imagen
+                            </h5>
+                            <p class="text-center card-text fs-2 mb-0"> 
+                                <i class="mdi mdi-plus"></i> 
+                            </p>
+                            <p class="text-center card-text fs-sm">Arrastre la imagen ó dar click aquí</p>
+                        </div>
+        
+                        <!-- IMG VALIDA -->
+                        <div class="success">
+        
+                            <div class="d-flex justify-content-center" *ngIf="imgTempP">
+                                <div class="mx-auto" style="background-image: url({{imgTempP}});width: 400px; height: 300px; background-repeat: no-repeat; background-size: cover; background-position: center center;"></div>
+                            </div>
+        
+                        </div>
+                        <!-- IMG VALIDA -->
+                    </div>
                 </div>
-
-                <div class="d-flex justify-content-center">
-                    <img [src]="portada | imagen: 'products' " alt="image" class="img-responsive img-rounded" width="150">
+        
+                <div *ngIf="imgTempP" class="d-flex justify-content-between flex-wrap pt-4 gap-2">
+                    <button type="button" class="btn btn-info btn-sm" [disabled]="!subirImagen" (click)="subirImg()"> Subir </button>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="imgTempP = ''; fileImg.value = ''"> Eliminar </button>
                 </div>
 
                 <hr>
@@ -58,13 +82,28 @@
                     <h4>Imagenes</h4>
                     <p *ngIf="product.img.length === 0">No se han cargado las imagenes del producto</p>
                 </div>
-                <div class="d-flex flex-wrap gap-2">
 
+                <!-- IMGS -->
+                <div *ngIf="product.img.length > 0" class="mt-4">
 
-                    <div *ngFor="let pic of product.img">
-                        <img [src]="pic.img | imagen: 'products' " alt="image" class="img-responsive img-rounded" width="50">
-                    </div>
+                    <swiper [config]="config">
+
+                        <ng-template swiperSlide *ngFor="let file of product.img">
+                            <div>
+                                <div style="background-image: url('{{ file.img | imagen }}');width: 150px; height: 150px; background-repeat: no-repeat; background-size: cover; background-position: center center;"></div>
+                                <small class="gallery-item-caption"> {{ file.fecha | date:'medium' }} </small>
+                                <div class="w-100 text-danger">
+                                    <a class="text-decoration-none pointer fs-sm" (click)="deleImg(file.img)">
+                                        <i class="ti ti-trash"></i> Eliminar
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-template>
+
+                    </swiper>
+
                 </div>
+                <!-- IMGS -->
 
             </div>
         </div>
