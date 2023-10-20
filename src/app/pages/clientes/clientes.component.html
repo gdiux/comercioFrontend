@@ -72,11 +72,11 @@
                                     <span *ngIf="!client.status" class="label label-danger"> Desactivado </span>
                                 </td>
                                 <td>
+                                    <button (click)="selectClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#niveles">
+                                        <i class="ti-view-list-alt" aria-hidden="true"></i>
+                                    </button>
                                     <button (click)="selectClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#edit-client">
                                         <i class="ti-pencil" aria-hidden="true"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn" data-toggle="tooltip" data-original-title="Desactivar">
-                                        <i class="ti-close" aria-hidden="true"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -227,6 +227,86 @@ MODAL EDITAR CLIENTE
                 </form>
 
 
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================= 
+MODAL NIVELES DEL CLIENTE
+======================================================== -->
+<div id="niveles" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalNivelesLabel" aria-hidden="true" #modalNewUser>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalNivelesLabel">NIVELES</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                      <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Nivel 1
+                          </button>
+                        </h2>
+                      </div>
+                  
+                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            1er Nivel de referidas
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Nivel 2
+                          </button>
+                        </h2>
+                      </div>
+                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                          2do Nivel de referidos
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            Nivel 3
+                          </button>
+                        </h2>
+                      </div>
+                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                          3er Nivel de referidos
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                          <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              Nivel 4
+                            </button>
+                          </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                          <div class="card-body">
+                            4to Nivel de referidos
+                          </div>
+                        </div>
+                      </div>
+                  </div>
 
             </div>
             <div class="modal-footer">
