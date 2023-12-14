@@ -20,6 +20,7 @@ export class Invoice {
         public fecha?: Date,
         public invoice?: number,
         public iid?: string,
+        public _id?: string,
         public pago?: number,
         public vueltos?: number,
         public nota?: string,

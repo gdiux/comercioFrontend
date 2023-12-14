@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { NgxPrinterService } from 'ngx-printer';
 
 // MODELS
 import { Invoice } from 'src/app/models/invoices.model';
@@ -16,7 +18,8 @@ import Swal from 'sweetalert2';
 export class FacturaComponent implements OnInit {
 
   constructor(  private activatedRoute: ActivatedRoute,
-                private invoicesService: InvoicesService) { 
+                private invoicesService: InvoicesService,
+                private printerService: NgxPrinterService) { 
     activatedRoute.params.subscribe( ({id}) =>{
 
       this.loadInvoice(id);
@@ -26,6 +29,14 @@ export class FacturaComponent implements OnInit {
 
   ngOnInit(): void {  
 
+  }
+
+  /** ================================================================
+   *  PRINT INVOICE
+  ==================================================================== */
+  @ViewChild('PrintTemplate') PrintTemplateTpl!: TemplateRef<any>;
+  printTemplate() {
+    this.printerService.printDiv('PrintTemplateTpl');
   }
 
   /** ================================================================

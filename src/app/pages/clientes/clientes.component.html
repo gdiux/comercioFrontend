@@ -46,6 +46,7 @@
                                 <th>Telefono</th>
                                 <th>Direccion</th>
                                 <th>Codigo</th>
+                                <th>Saldo</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -67,12 +68,13 @@
                                 <td> {{ client.phone }} </td>
                                 <td> {{ client.address }} </td>
                                 <td> {{ client.referralCode }} </td>
+                                <td> {{ client.walletBalance | currency: 'COP' }} </td>
                                 <td>
                                     <span *ngIf="client.status" class="label label-success"> Activo </span>
                                     <span *ngIf="!client.status" class="label label-danger"> Desactivado </span>
                                 </td>
                                 <td>
-                                    <button (click)="selectClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#niveles">
+                                    <button (click)="loadLevels(client.cid!)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#niveles">
                                         <i class="ti-view-list-alt" aria-hidden="true"></i>
                                     </button>
                                     <button (click)="selectClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#edit-client">
@@ -248,65 +250,92 @@ MODAL NIVELES DEL CLIENTE
             </div>
             <div class="modal-body">
 
-                <div class="accordion" id="accordionExample">
-                    <div class="card">
-                      <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                          <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Nivel 1
-                          </button>
-                        </h2>
-                      </div>
-                  
-                      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                        <div class="card-body">
-                            1er Nivel de referidas
+                <div *ngIf="loadClientsReffer">
+                    <p class="mb-0 fs-4 text-center">Cargando...</p>
+                </div>
+
+                <div *ngIf="!loadClientsReffer">
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Nivel 1
+                              </button>
+                                </h2>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <p class="mb-0" *ngIf="first.length === 0">No tienes ningun referido en este nivel</p>
+                                        <span class="badge badge-primary" *ngFor="let item of first"> {{ item.name +' '+item.lastname }} </span>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
-                      </div>
+                        <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Nivel 2
+                              </button>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <p class="mb-0" *ngIf="two.length === 0">No tienes ningun referido en este nivel</p>
+                                        <span class="badge badge-primary" *ngFor="let item of two"> {{ item.name +' '+item.lastname }} </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Nivel 3
+                              </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <p class="mb-0" *ngIf="three.length === 0">No tienes ningun referido en este nivel</p>
+                                        <span class="badge badge-primary" *ngFor="let item of three"> {{ item.name +' '+item.lastname }} </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
+                                  Nivel 4
+                                </button>
+                                </h2>
+                            </div>
+                            <div id="collapsefour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <p class="mb-0" *ngIf="four.length === 0">No tienes ningun referido en este nivel</p>
+                                        <span class="badge badge-primary" *ngFor="let item of four"> {{ item.name +' '+item.lastname }} </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card">
-                      <div class="card-header" id="headingTwo">
-                        <h2 class="mb-0">
-                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            Nivel 2
-                          </button>
-                        </h2>
-                      </div>
-                      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                        <div class="card-body">
-                          2do Nivel de referidos
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header" id="headingThree">
-                        <h2 class="mb-0">
-                          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Nivel 3
-                          </button>
-                        </h2>
-                      </div>
-                      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                        <div class="card-body">
-                          3er Nivel de referidos
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" id="headingThree">
-                          <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                              Nivel 4
-                            </button>
-                          </h2>
-                        </div>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                          <div class="card-body">
-                            4to Nivel de referidos
-                          </div>
-                        </div>
-                      </div>
-                  </div>
+                </div>
+
 
             </div>
             <div class="modal-footer">

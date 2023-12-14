@@ -289,6 +289,44 @@ export class ClientesComponent implements OnInit {
         });
 
   }
+
+  /** ======================================================================
+   * LOAD LEVELS
+  ====================================================================== */
+  public loadClientsReffer: boolean = false;
+  public first: Client[] = [];
+  public two: Client[] = [];
+  public three: Client[] = [];
+  public four: Client[] = [];
+  loadLevels(cid: string){
+
+    this.first = [];
+    this.two = [];
+    this.three = [];
+    this.four = [];
+
+    this.loadClientsReffer = true;
+
+    if (cid.length > 0) {
+
+      this.clientsService.loadLevelsClients(cid)
+          .subscribe( ({first, two, three, four,}) => {
+
+            this.first = first;
+            this.two = two;
+            this.three = three;
+            this.four = four;
+
+            this.loadClientsReffer = false;
+
+          }, (err) => {
+            console.log(err);
+            Swal.fire('Error', err.error.msg, 'error');            
+          })
+      
+    }
+
+  }
   
   // FIN DE LA CLASE
 }

@@ -16,6 +16,10 @@ import { Client } from 'src/app/models/clients.model';
 import { Items } from 'src/app/interfaces/items.interface';
 import { Invoice, _Payments } from 'src/app/models/invoices.model';
 
+import { environment } from '../../../environments/environment';
+
+const local_url = environment.local_url;
+
 interface _invoice{
   amount: number,
   vueltos: number,
@@ -274,12 +278,15 @@ export class FacturarComponent implements OnInit {
   /** ================================================================
    *  CREATE INVOICE
   ==================================================================== */
+  public facturando: boolean = false;
   createInvoice(){
 
     if (this.restante < 0) {
       Swal.fire('Atención', 'No ha cancelado el total de la factura', 'warning');
       return;
     }
+
+    this.facturando = true;
 
     const invoice: _invoice = {
       amount: this.total,
@@ -295,18 +302,30 @@ export class FacturarComponent implements OnInit {
     this.invoicesService.createInvoice(invoice)
         .subscribe( ({invoice}) =>{
 
+          console.log(invoice);
+          
+
+          this.facturando = false;
+          
+          this.items = [];
+          this.payments = [];
+          this.restante = 0;
+          this.sumarTotales();
+
           this.client = {
             name: 'Consumidor Final',
             cedula: '222222222222',
             email: '',
             address: '',
             phone: ''
-
           };
 
           Swal.fire('Estupendo', 'Se ha creado la factura exitosamente!', 'success');
 
+          window.open(`${local_url}/dashboard/factura/${invoice.iid}`, '_blank');
+
         }, (err) => {
+          this.facturando = false;
           console.log(err);
           Swal.fire('Error', err.error.msg, 'error');          
         })

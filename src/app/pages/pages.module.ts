@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SwiperModule } from 'swiper/angular';
+import { NgxPrinterModule } from 'ngx-printer';
 
 // MODULES
 import { RouterModule } from '@angular/router';
@@ -65,7 +66,8 @@ import { FacturaComponent } from './factura/factura.component';
     FormsModule,
     ReactiveFormsModule,
     PipesModule,
-    SwiperModule
+    SwiperModule,
+    NgxPrinterModule.forRoot({printOpenWindow: true})
     
   ]
 })

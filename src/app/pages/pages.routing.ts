@@ -32,7 +32,7 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         children:
         [
-          { path: '', component: DashboardComponent, data:{ title: 'Dashboard' } },
+          { path: '', component: PedidosComponent, data:{ title: 'Dashboard' } },
           { path: 'clientes', component: ClientesComponent, canActivate: [AdminGuard], data:{ title: 'Clientes' } },
           { path: 'categorias', component: CategoriasComponent, canActivate: [AdminGuard], data:{ title: 'Categorias' } },
           { path: 'facturar', component: FacturarComponent, canActivate: [AdminGuard], data:{ title: 'Facturación' } },

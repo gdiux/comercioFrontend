@@ -16,7 +16,8 @@
                     <div class="pull-right text-right">
                         <address>
                             <h3>Cliente o Razón Social,</h3>
-                            <h4 class="font-bold"> {{ invoice.client?.name }} </h4>
+                            <h4 class="font-bold" *ngIf="invoice.client"> {{ invoice.create?.name + ' '+ invoice.client?.lastname  }} </h4>
+                            <h4 class="font-bold" *ngIf="!invoice.client"> Consumidor Final </h4>
                             <p class="text-muted m-l-30"> {{ invoice.client?.address  }}
                             <p class="m-t-30">
                                 <b>Fecha :</b> <i class="fa fa-calendar"></i> {{ invoice.fecha | date:'short' }}
@@ -57,9 +58,100 @@
                     <div class="clearfix"></div>
                     <hr>
                     <div class="text-right">
-                        <button id="print" class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Imprimir</span> </button>
+                        <button id="print" class="btn btn-default btn-outline" type="button" data-toggle="modal" data-target="#factura"> <span><i class="fa fa-print"></i> Imprimir</span> </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FACTURA -->
+<div class="modal fade" id="factura" tabindex="-1" aria-labelledby="facturaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" *ngIf="invoice">
+            <div class="modal-header">
+                <h5 class="modal-title" id="facturaLabel">Factura #{{invoice.invoice}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="pb-2">
+                    <p class="mb-3 text-center">TOTAL</p>
+                    <h4 class="mb-3 display-5 text-center text-break"> {{ invoice.amount | currency:'COP' : 'symbol' : '1.0-0' }} </h4>
+                </div>
+
+
+                <hr>
+
+
+                <button type="button" (click)="printTemplate()" class="btn btn-primary">Imprimir</button>
+
+                <!-- FACTURA -->
+                <div *ngIf="invoice" id="PrintTemplateTpl" #PrintTemplateTpl class="text-black">
+
+                    <div class="text-center">
+                        <address>
+                            <h3> &nbsp;<b class="text-black">Comercio Llanero</b></h3>
+                            <p class="m-l-5 text-black">MANZANA 91 CASA 14 CIUDADELA LA BENDICION,
+                                <br> Yopal
+                        </address>
+                    </div>
+                    <div class="">
+                        <address>
+                            <h4 class="text-black mb-0">Cliente o Razón Social:</h4>
+                            <p class="text-black mb-1" *ngIf="invoice.client" > {{ invoice.create?.name + ' '+ invoice.client?.lastname }} </p>
+                            <p class="text-black mb-1" *ngIf="!invoice.client" >Consumidor Final </p>
+                            <p class="text-black"> {{ invoice.client?.address }}
+                            <p class="">Factura: {{ invoice.invoice }} </p>
+                            <p class="text-black"> <b>Fecha :</b> <i class="fa fa-calendar"></i> {{ invoice.fecha | date: 'short' }} </p>
+                        </address>
+                    </div>
+
+                    <!-- ITEMS -->
+                    <div>
+                        <table class="table table-borderless table-hover table-sm">
+                            <tbody style="color: black;">
+                                <tr *ngFor="let item of invoice.items" class="trHover">
+                                    <td class="py-0" style="line-height: 0.8rem">
+                                        <small class="text-wrap"> {{ item.quantity }} x {{item.price | currency: 'COP'}} </small> <br>
+                                        <small class="text-wrap"> {{ item.description }} </small>
+                                    </td>
+                                    <td class="py-0"> <small class="text-wrap"> {{ item.quantity * item.price | currency: 'COP' }} </small> </td>
+                                </tr>
+
+                                <tr class="" style="border-top: 2px solid black;">
+                                    <td>
+                                        <h6 class="mb-0 text-wrap text-left text-black">Sub-total</h6>
+                                    </td>
+                                    <td colspan="2" class="fw-bold">
+                                        <h6 class="mb-0 text-wrap text-rigth text-black"> {{ invoice.amount| currency: 'COP' }} </h6>
+                                    </td>
+                                </tr>
+
+                                <!-- TOTAL -->
+                                <tr class="" style="border-top: 2px solid black;">
+                                    <td>
+                                        <h6 class="mb-0 text-wrap text-left text-black">Total</h6>
+                                    </td>
+                                    <td colspan="2" class="fw-bold">
+                                        <h6 class="mb-0 text-wrap text-rigth text-black"> {{ invoice.amount | currency: 'COP'}} </h6>
+                                    </td>
+                                </tr>
+                                <!-- TOTAL -->
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

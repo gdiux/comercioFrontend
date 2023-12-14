@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Invoice } from 'src/app/models/invoices.model';
 
 // SERVICES
@@ -22,6 +22,7 @@ export class FacturasComponent implements OnInit {
    *  LOAD INVOICE
   ==================================================================== */
   public invoices: Invoice[] = [];
+  public total: number = 0;
   public query = {
     desde: 0,
     hasta: 50,
@@ -34,17 +35,42 @@ export class FacturasComponent implements OnInit {
   loadInvoices(){
 
     this.invoicesService.loadInvoices(this.query)
-        .subscribe( ({invoices}) => {
+        .subscribe( ({invoices, total}) => {
 
-          this.invoices = invoices;
-          console.log(invoices);
-          
+          this.invoices = invoices;         
+          this.total = total;         
 
         }, (err) => {
           console.log(err);
           Swal.fire('Error', err.error.msg);
           
         })
+
+  }
+
+  /** ================================================================
+   *   CAMBIAR PAGINA
+  ==================================================================== */
+  @ViewChild('mostrar') mostrar!: ElementRef;
+  cambiarPagina (valor: number){
+    
+    this.query.desde += valor;
+
+    if (this.query.desde < 0) {
+      this.query.desde = 0;
+    }
+    
+    this.loadInvoices();
+    
+  }
+
+  /** ================================================================
+   *   CHANGE LIMITE
+  ==================================================================== */
+  limiteChange( cantidad: any ){  
+
+    this.query.hasta = Number(cantidad);    
+    this.loadInvoices();
 
   }
 

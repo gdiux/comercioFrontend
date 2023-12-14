@@ -99,7 +99,15 @@ export class ProductoComponent implements OnInit {
                   this.portada = this.product.img.img;
                 }
 
-                this.loadSubcategories(product.categoria.catid);
+                if (product.categoria) {
+                  this.loadSubcategories(product.categoria.catid);                  
+                }else{
+                  product.categoria._id = 'none';
+                }
+
+                if (!product.subcategoria) {
+                  product.subcategoria._id = 'none';
+                }
 
                 this.updateForm.setValue({
                   sku: this.product.sku,
@@ -109,8 +117,8 @@ export class ProductoComponent implements OnInit {
                   price: this.product.price,
                   cost: this.product.cost,
                   min: this.product.min,
-                  categoria: this.product.categoria._id || 'none',
-                  subcategoria: this.product.subcategoria._id || 'none',
+                  categoria: product.categoria._id || 'none',
+                  subcategoria: product.subcategoria._id || 'none',
                   visibility: this.product.visibility
                 })
                 

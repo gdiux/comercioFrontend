@@ -121,21 +121,19 @@ export class PerfilComponent implements OnInit {
           this.user = user;
 
           this.activatedRoute.params
-          .subscribe( ({id}) =>{
+              .subscribe( ({id}) =>{
 
-            if (this.usersService.user.uid === id) {
+                if (this.usersService.user.uid === id) {
+                  this.usersService.user.name = this.user.name;
+                  this.usersService.user.email = this.user.email;              
+                }
 
-              this.usersService.user.name = this.user.name;
-              this.usersService.user.email = this.user.email;
-              
-            }
+                Swal.fire('Estupendo', 'Se ha actualizado el perfil exitosamente!', 'success');
 
-            Swal.fire('Estupendo', 'Se ha actualizado el perfil exitosamente!', 'success');
-
-          }, (err) => {
-            console.log(err);
-            Swal.fire('Error', err.error.msg, 'error');            
-          });
+              }, (err) => {
+                console.log(err);
+                Swal.fire('Error', err.error.msg, 'error');            
+              });
 
         });
 

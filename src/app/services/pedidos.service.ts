@@ -1,16 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Pedido } from '../models/pedidos.model';
 
-import { catchError, map, tap } from 'rxjs/operators'
-import { Observable, of } from 'rxjs';
-
-// MODELS
-import { Client } from '../models/clients.model';
-
-// INTERFACES
-import { LoadClients } from '../interfaces/load-clients.interface';
-
-// ENVIRONMENT
 import { environment } from '../../environments/environment';
 
 const base_url = environment.base_url;
@@ -18,7 +9,7 @@ const base_url = environment.base_url;
 @Injectable({
   providedIn: 'root'
 })
-export class ClientsService {
+export class PedidosService {
 
   constructor(  private http: HttpClient) { }
 
@@ -41,31 +32,30 @@ export class ClientsService {
   }
 
   /** ================================================================
-   *   LOAD CLIENTS
+   *  LOAD PEDIDOS
   ==================================================================== */
-  loadClients(desde: number, limite: number){
-    return this.http.get<LoadClients>( `${base_url}/clients?desde=${desde}&limite=${limite}`, this.headers );
+  loadPedidos(query: any){
+    return this.http.post<{ok: boolean, pedidos: Pedido[], total: number, pendientes: number, enviandos: number, entregados: number}>( `${base_url}/pedidos/query`, query, this.headers );
   }
 
   /** ================================================================
-   *   LOAD LEVELS
+   *  LOAD PEDIDO ID
   ==================================================================== */
-  loadLevelsClients(cid: string){
-    return this.http.get<{ok: boolean, first: Client[], two: Client[], three: Client[], four: Client[]}>( `${base_url}/clients/level/${cid}`, this.headers );
+  loadPedidoID(id: string){
+    return this.http.get<{ok: boolean, pedido: Pedido}>( `${base_url}/pedidos/${id}`, this.headers );
   }
 
   /** ================================================================
-   *   CREATE CLIENTS
+   *  CREATE PEDIDO
   ==================================================================== */
-  createClient( formData: any ){
-    return this.http.post<{ok: boolean, client: Client}>(`${base_url}/clients`, formData, this.headers);
+  createPedido(formData: any){
+    return this.http.post<{ok: Boolean, pedido: Pedido}>(`${base_url}/pedidos`, formData, this.headers);
   }
 
   /** ================================================================
-   *   UPDATE CLIENTS
+   *  UPDATE PEDIDO
   ==================================================================== */
-  updateClient( formData:any, id: string ){
-    return this.http.put<{ok: boolean, client: Client}>(`${base_url}/clients/${id}`, formData, this.headers);
+  updatePedido(formData: any, id: string){
+    return this.http.put<({ok: Boolean, pedido: Pedido})>(`${base_url}/pedidos/${id}`, formData, this.headers);
   }
-
 }
