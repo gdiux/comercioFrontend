@@ -88,10 +88,7 @@ export class ProductoComponent implements OnInit {
         
 
           this.productsService.loadProductId(id)
-              .subscribe( ({product}) => {
-
-                console.log(product);
-                
+              .subscribe( ({product}) => {                
 
                 this.product = product;
 
@@ -119,7 +116,10 @@ export class ProductoComponent implements OnInit {
                   min: this.product.min,
                   categoria: product.categoria._id || 'none',
                   subcategoria: product.subcategoria._id || 'none',
-                  visibility: this.product.visibility
+                  visibility: this.product.visibility,
+                  offert: this.product.offert || false,
+                  offertPrice: this.product.offertPrice || 0,
+                  offertPercent: this.product.offertPercent || 0
                 })
                 
 
@@ -130,6 +130,32 @@ export class ProductoComponent implements OnInit {
               });
 
       });
+
+  }
+
+  /** ================================================================
+   *  CALCULAR PORCENTAJE DE LA OFERTA
+  ==================================================================== */
+  calculatePercent(price: any){
+    price = Number(price);
+
+    let percent = ((this.product.price - price )/ this.product.price ) * 100;
+
+    this.updateForm.setValue({
+      sku: this.updateForm.value.sku,
+      name: this.updateForm.value.name,
+      type: this.updateForm.value.type,
+      description: this.updateForm.value.description,
+      price: this.updateForm.value.price,
+      cost: this.updateForm.value.cost,
+      min: this.updateForm.value.min,
+      categoria: this.updateForm.value.categoria,
+      subcategoria: this.updateForm.value.subcategoria,
+      visibility: this.updateForm.value.visibility,
+      offert: this.updateForm.value.offert,
+      offertPrice: this.updateForm.value.offertPrice || 0,
+      offertPercent: percent.toFixed(0)
+    })
 
   }
 
@@ -147,7 +173,10 @@ export class ProductoComponent implements OnInit {
     min: 0,
     categoria: 'none',
     subcategoria: 'none',
-    visibility: true
+    visibility: true,
+    offert: false,
+    offertPrice: 0,
+    offertPercent: 0
   })
 
   update(){

@@ -44,33 +44,33 @@
         <div class="card">
 
             <div class="card-body">
-        
+
                 <div class="form-group file-area border">
                     <input #fileImg (change)="cambiarImage($event)" type="file" name="images" id="images" required="required" multiple="multiple" />
                     <div class="file-dummy">
-        
+
                         <div class="default py-5">
                             <h5 class="text-center card-title text-muted">
                                 Agregar Imagen
                             </h5>
-                            <p class="text-center card-text fs-2 mb-0"> 
-                                <i class="mdi mdi-plus"></i> 
+                            <p class="text-center card-text fs-2 mb-0">
+                                <i class="mdi mdi-plus"></i>
                             </p>
                             <p class="text-center card-text fs-sm">Arrastre la imagen ó dar click aquí</p>
                         </div>
-        
+
                         <!-- IMG VALIDA -->
                         <div class="success">
-        
+
                             <div class="d-flex justify-content-center" *ngIf="imgTempP">
                                 <div class="mx-auto" style="background-image: url({{imgTempP}});width: 400px; height: 300px; background-repeat: no-repeat; background-size: cover; background-position: center center;"></div>
                             </div>
-        
+
                         </div>
                         <!-- IMG VALIDA -->
                     </div>
                 </div>
-        
+
                 <div *ngIf="imgTempP" class="d-flex justify-content-between flex-wrap pt-4 gap-2">
                     <button type="button" class="btn btn-info btn-sm" [disabled]="!subirImagen" (click)="subirImg()"> Subir </button>
                     <button type="button" class="btn btn-danger btn-sm" (click)="imgTempP = ''; fileImg.value = ''"> Eliminar </button>
@@ -181,7 +181,7 @@
                                     <ng-container *ngFor="let category of categories" >
                                         <option *ngIf="category.status" [value]="category.catid"> {{category.name}} </option>
                                     </ng-container>                                
-    
+                                    
                                 </select>
                             </div>
                         </div>
@@ -193,13 +193,32 @@
                                     <option value="none" disabled>Seleccionar</option>
                                     
                                     <ng-container *ngIf="subcategories.length > 0">
-                                       <ng-container *ngFor="let subcategory of subcategories" >
+                                        <ng-container *ngFor="let subcategory of subcategories" >
                                             <option *ngIf="subcategory.status" [value]="subcategory.subcaid"> {{subcategory.name}} </option>
                                         </ng-container>                                
                                     </ng-container>
-    
+                                    
                                 </select>
                             </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <div class="switch">
+                                <label>
+                                    <input type="checkbox" #checkOfert (change)="checkOfert.checked = checkOfert.checked" formControlName="offert"><span class="lever switch-col-indigo"></span>
+                                    Oferta
+                                </label>
+                            </div>
+                        </div>
+
+                        <div *ngIf="checkOfert.checked" class="col-md-12 m-b-20">
+                            <label for="">Precio de Oferta</label>
+                            <input (keyup)="calculatePercent(inoffertPrice.value)" #inoffertPrice formControlName="offertPrice" type="number" class="form-control" placeholder="Precio de oferta">
+                        </div>
+
+                        <div *ngIf="checkOfert.checked" class="col-md-12 m-b-20">
+                            <label for="">Porcentaje de la oferta</label>
+                            <input readonly formControlName="offertPercent" type="number" class="form-control" placeholder="Precio">
                         </div>
 
                         <small class="mb-0 text-muted text-break"> <span class="fw-bold">NOTA:</span> Los campos de texto que tengan ** son obligatorios.</small>

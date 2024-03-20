@@ -70,7 +70,17 @@
                                     </a>
                                 </td>
                                 <td>{{product.type}}</td>
-                                <td>{{product.price | currency: 'COP'}}</td>
+                                <td>
+                                    <span *ngIf="!product.offert">
+                                        {{product.price | currency: 'COP'}}
+                                    </span>
+                                    <span *ngIf="product.offert">
+                                        <small><del>{{product.price | currency: 'COP'}}</del></small>
+                                        <br>
+                                        {{ product.offertPrice | currency: 'COP'}}
+
+                                    </span>
+                                </td>
                                 <td>{{product.inventory}}</td>
                                 <td>{{product.categoria?.name!}}</td>
                                 <td>{{product.subcategoria?.name!}}</td>
