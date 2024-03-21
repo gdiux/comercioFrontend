@@ -54,6 +54,10 @@ export class PedidoComponent implements OnInit {
             pedido.amount += 5000;
           }
 
+          if (pedido.amount - pedido.saldo < 100000) {
+            pedido.amount += 5000;
+          }
+
           this.pedido = pedido;          
 
         }, (err) =>{
@@ -130,7 +134,7 @@ export class PedidoComponent implements OnInit {
       vueltos: this.restante
     }
 
-    if (this.pedido.amount < 100000) {
+    if (this.pedido.amount < 100000 || (this.pedido.amount - this.pedido.saldo) < 100000) {
       invoiceForm.items.push({        
         sku: 'Domicilio',
         quantity: 1,

@@ -16,6 +16,7 @@ export class Pedido{
         public pedido: number,
         public client: Client,
         public amount: number,
+        public saldo: number,
         public items: _Items[],
         public estado: string,
         public status: boolean,

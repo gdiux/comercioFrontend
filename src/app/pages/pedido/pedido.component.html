@@ -64,7 +64,7 @@
                                     <td class="text-right"> {{ item.price | currency: 'COP' }} </td>
                                     <td class="text-right"> {{ item.price * item.quantity | currency: 'COP' }} </td>
                                 </tr>
-                                <tr *ngIf="pedido.amount < 100000">
+                                <tr *ngIf="pedido.amount < 100000 || (pedido.amount - pedido.saldo) < 100000">
                                     <td class="text-center"> {{ pedido.items.length + 1 }} </td>
                                     <td> Domicilio </td>
                                     <td class="text-right"> 1 </td>
