@@ -81,7 +81,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <span [ngClass]="{'text-success': product.type === 'Agregados', 'text-primary': product.type === 'Salida', 'text-danger': product.type === 'Eliminados'}">
+                                    <span class="badge" [ngClass]="{'badge-success': product.type === 'Agregados', 'badge-primary': product.type === 'Salida', 'badge-danger': product.type === 'Eliminados'}">
                                         {{product.type}}
                                     </span>
                                 </td>
