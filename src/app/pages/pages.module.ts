@@ -29,6 +29,7 @@ import { FacturarComponent } from './facturar/facturar.component';
 import { PedidoComponent } from './pedido/pedido.component';
 import { FacturasComponent } from './facturas/facturas.component';
 import { FacturaComponent } from './factura/factura.component';
+import { MovimientosComponent } from './movimientos/movimientos.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { FacturaComponent } from './factura/factura.component';
     FacturarComponent,
     PedidoComponent,
     FacturasComponent,
-    FacturaComponent
+    FacturaComponent,
+    MovimientosComponent
   ],
   exports:[
     DashboardComponent,

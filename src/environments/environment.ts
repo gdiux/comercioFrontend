@@ -14,8 +14,8 @@
 
 export const environment = {
   production: false,
-  base_url: 'https://admin.comerciollanero.com/api',
-  local_url: 'https://admin.comerciollanero.com'
+  base_url: 'http://localhost:3000/api',
+  local_url: 'http://localhost:4200'
 };
 
 /*

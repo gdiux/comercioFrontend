@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { LogProduct } from '../models/category.model copy';
+
 import { environment } from '../../environments/environment';
-import { delay, map } from 'rxjs/operators';
 
 const base_url = environment.base_url;
 
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class LogproductsService {
 
   constructor(  private http: HttpClient) { }
 
@@ -32,23 +33,9 @@ export class SearchService {
   }
 
   /** ================================================================
-   *   SEARCH
+   *   LOAD PRODUCTS
   ==================================================================== */
-  search(
-    tipo: 'users' | 'clients' | 'products' | 'pedidos' | 'correctives' | 'movimientos',
-    termino: string,
-    query: string = ''
-  ){
-    let endPoint = `/search/${tipo}/${termino}`;
-
-    return this.http.get< { resultados: any[], total: number } >(`${base_url}${endPoint}`, this.headers)
-          .pipe(
-            map( (resp: any) => {              
-              return resp;
-            })
-          );
-}
-
-
-  // FIN DE LA CLASE
+  loadLogProducts(query: any){
+    return this.http.post<{ok: boolean, logproducts: LogProduct[], total: number}>( `${base_url}/logproducts/query`, query, this.headers );
+  }
 }

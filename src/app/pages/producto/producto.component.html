@@ -35,6 +35,10 @@
 
 </div>
 
+<div class="d-flex justify-content-end mb-3">
+    <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#updateInventory">Actualizar Inventario</button>
+</div>
+
 <div *ngIf="product" class="d-flex flex-wrap">
 
 
@@ -232,4 +236,52 @@
         </div>
     </div>
 
+</div>
+
+<!-- ========================================================= 
+MODAL ACTUALIZAR INVENTARIO
+======================================================== -->
+<div id="updateInventory" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="updateInventory" aria-hidden="true" #modalNewUser>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="updateInventory">Actualizar Inventario</h4>
+            </div>
+            <div class="modal-body">
+
+
+                <form class="form-horizontal form-material" autocomplete="off" [formGroup]="upInventoryForm" (ngSubmit)="updateInventory()">
+
+                    <div class="form-group has-danger">
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="">Cantidad</label>
+                            <input formControlName="qty" type="number" min="1" class="form-control" placeholder="Cantidad de prodcutos">
+                            <div *ngIf="validateUpInv('qty')" class="form-control-feedback">
+                                <small> La cantidad es obligatoria </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <label for="estado"> Tipo Movimiento</label>
+                            <select formControlName="movimiento" class="form-control" id="estado">
+                                <option value="Agregados" >Agregar</option>
+                                <option value="Eliminados" >Eliminar</option>
+                            </select>
+                        </div>
+
+                        <small class="mb-0 text-muted text-break"> <span class="fw-bold">NOTA:</span> Los campos de texto que tengan ** son obligatorios.</small>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-info waves-effect btn-block">Actualizar</button>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
 </div>

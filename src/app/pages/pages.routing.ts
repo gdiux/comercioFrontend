@@ -20,6 +20,7 @@ import { FacturarComponent } from './facturar/facturar.component';
 import { PedidoComponent } from './pedido/pedido.component';
 import { FacturasComponent } from './facturas/facturas.component';
 import { FacturaComponent } from './factura/factura.component';
+import { MovimientosComponent } from './movimientos/movimientos.component';
 
 
 // COMPONENTS
@@ -43,6 +44,7 @@ const routes: Routes = [
           { path: 'pedido/:id', component: PedidoComponent, canActivate: [AdminGuard], data:{ title: 'Pedido' } },
           { path: 'productos', component: ProductosComponent, canActivate: [AdminGuard], data:{ title: 'Productos' } },
           { path: 'producto/:id', component: ProductoComponent, canActivate: [AdminGuard], data:{ title: 'Producto' } },
+          { path: 'movimientos', component: MovimientosComponent, canActivate: [AdminGuard], data:{ title: 'Movimientos de Productos' } },
           { path: 'perfil/:id', component: PerfilComponent, data:{ title: 'Perfil' } },
           { path: 'usuarios', component: UsuariosComponent, canActivate: [AdminGuard], data:{ title: 'Usuarios' } },
           { path: '', redirectTo: '/dashboard', pathMatch: 'full' }

@@ -183,8 +183,7 @@ export class ProductoComponent implements OnInit {
 
     this.formSubmitted = true;
     
-    if (this.updateForm.invalid) {
-      
+    if (this.updateForm.invalid) {      
       this.formSubmitted = false;
       return;
     }
@@ -219,6 +218,56 @@ export class ProductoComponent implements OnInit {
   validate(campo: string): boolean{
 
     if (this.updateForm.get(campo)?.invalid && this.formSubmitted ) {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  /** ================================================================
+   *  UPDATE INVENTORY PRODUCT
+  ==================================================================== */
+  public upInventorySubmmited: boolean = false;
+  public upInventoryForm = this.fb.group({
+    qty: [0, [Validators.required, Validators.min(0)]],
+    sku: '',
+    movimiento: 'Agregados'
+  })
+  
+  updateInventory(){
+    
+    this.upInventorySubmmited = true;
+
+    if (this.upInventoryForm.invalid || this.upInventoryForm.value.qty <= 0) {
+      return;
+    }
+
+    this.upInventoryForm.value.sku = this.product.sku;  
+
+    this.productsService.updateProduct(this.upInventoryForm.value, this.product.pid)
+        .subscribe( ({product}) => {
+
+          this.product = product;
+
+          this.upInventorySubmmited = false;
+          this.upInventoryForm.reset({
+            movimiento: 'Agregados'
+          });
+          Swal.fire('Estupendo', 'Se ha actualizado el inventario exitosamente!', 'success');
+
+        }, (err) => {
+          console.log(err);
+          Swal.fire('Error', err.error.msg, 'error');          
+        })
+
+  }
+
+  /** ================================================================
+   *  VALIDATE UPDATE INVENTORY FORM
+  ==================================================================== */
+  validateUpInv(campo: string): boolean{
+
+    if (this.upInventoryForm.get(campo)?.invalid && this.upInventorySubmmited ) {
       return true;
     }else{
       return false;
