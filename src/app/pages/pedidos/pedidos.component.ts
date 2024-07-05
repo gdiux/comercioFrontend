@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Pedido } from 'src/app/models/pedidos.model';
 import { PedidosService } from 'src/app/services/pedidos.service';
 import { SearchService } from 'src/app/services/search.service';
+import Swal from 'sweetalert2';
 
 interface _query{
   desde: number,
@@ -131,5 +132,43 @@ export class PedidosComponent implements OnInit {
     
     this.loadPedidos();
   }
+
+  /** ======================================================================
+   * DELETE PEDIDO
+  ====================================================================== */
+  deletePedido(peid: string, i: any){
+
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "De eliminar este pedido!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, eliminar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pedidosService.deletePedido(peid)
+        .subscribe( ({ok,msg}) => {
+
+          if (ok) {
+            this.pedidos.splice(i, 1);
+            this.pedidosTemp.splice(i, 1);
+
+            Swal.fire('Estupendo', 'Se ha eliminado el pedido exitosamente!', 'success');            
+          }
+
+
+        }, (err) => {
+          console.log(err);
+          Swal.fire('Error', err.error.msg, 'error');          
+        })
+      }
+    });
+
+    
+
+  };
 
 }

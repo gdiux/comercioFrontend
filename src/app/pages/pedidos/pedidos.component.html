@@ -79,7 +79,7 @@
                                 <td colspan="6"> No existen registros de pedidos... </td>
                             </tr>
 
-                            <tr *ngFor="let pedido of pedidos">
+                            <tr *ngFor="let pedido of pedidos; let i = index">
                                 <td>
                                     <a [routerLink]="['/dashboard/pedido', pedido.peid]">
                                         {{ pedido.pedido }}
@@ -97,6 +97,10 @@
                                     <a [routerLink]="['/dashboard/pedido', pedido.peid]" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn">
                                         <i class="ti-arrow-top-right" aria-hidden="true"></i>
                                     </a>
+
+                                    <button type="button" (click)="deletePedido(pedido.peid!, i)" class="btn btn-sm btn-icon btn-pure btn-outline text-danger delete-row-btn">
+                                        <i class="ti-trash" aria-hidden="true"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

@@ -327,6 +327,32 @@ export class ClientesComponent implements OnInit {
     }
 
   }
+
+  /** ======================================================================
+   * UPDATE REFER
+  ====================================================================== */
+  @ViewChild ('btRf') btRf!: ElementRef;
+  public clientSelect!: Client;
+  updateRefer(referredBy: string){    
+
+    if (this.clientSelect) {
+
+      this.clientsService.updateClient({name: this.clientSelect.name ,referredBy}, this.clientSelect.cid!)
+          .subscribe( ({client}) => {
+
+            Swal.fire('Estupendo', 'Se a asignado el referido correctamente!', 'success');
+
+            this.btRf.nativeElement.click();
+            this.loadClients();
+
+          }, (err) => {
+            console.log(err);
+            Swal.fire('Error', err.error.msg, 'error');            
+          })
+      
+    }
+
+  }
   
   // FIN DE LA CLASE
 }

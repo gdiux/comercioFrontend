@@ -80,6 +80,9 @@
                                     <button (click)="selectClient(client)" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#edit-client">
                                         <i class="ti-pencil" aria-hidden="true"></i>
                                     </button>
+                                    <button (click)="clientSelect = client" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#edit-refer">
+                                        <i class="ti-list" aria-hidden="true"></i>
+                                    </button>
                                 </td>
                             </tr>
 
@@ -268,9 +271,9 @@ MODAL NIVELES DEL CLIENTE
                             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">
 
-                                    <div class="d-flex flex-wrap gap-2">
+                                    <div class="">
                                         <p class="mb-0" *ngIf="first.length === 0">No tienes ningun referido en este nivel</p>
-                                        <span class="badge badge-primary" *ngFor="let item of first"> {{ item.name +' '+item.lastname }} </span>
+                                        <span class="badge badge-primary m-1" *ngFor="let item of first"> {{ item.name +' '+item.lastname }} </span>
                                     </div>
 
                                 </div>
@@ -287,9 +290,9 @@ MODAL NIVELES DEL CLIENTE
                             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                                 <div class="card-body">
 
-                                    <div class="d-flex flex-wrap gap-2">
+                                    <div class="">
                                         <p class="mb-0" *ngIf="two.length === 0">No tienes ningun referido en este nivel</p>
-                                        <span class="badge badge-primary" *ngFor="let item of two"> {{ item.name +' '+item.lastname }} </span>
+                                        <span class="badge badge-primary m-1" *ngFor="let item of two"> {{ item.name +' '+item.lastname }} </span>
                                     </div>
 
                                 </div>
@@ -306,9 +309,9 @@ MODAL NIVELES DEL CLIENTE
                             <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                 <div class="card-body">
 
-                                    <div class="d-flex flex-wrap gap-2">
+                                    <div>
                                         <p class="mb-0" *ngIf="three.length === 0">No tienes ningun referido en este nivel</p>
-                                        <span class="badge badge-primary" *ngFor="let item of three"> {{ item.name +' '+item.lastname }} </span>
+                                        <span class="badge badge-primary m-1" *ngFor="let item of three"> {{ item.name +' '+item.lastname }} </span>
                                     </div>
 
                                 </div>
@@ -325,9 +328,9 @@ MODAL NIVELES DEL CLIENTE
                             <div id="collapsefour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                                 <div class="card-body">
 
-                                    <div class="d-flex flex-wrap gap-2">
+                                    <div>
                                         <p class="mb-0" *ngIf="four.length === 0">No tienes ningun referido en este nivel</p>
-                                        <span class="badge badge-primary" *ngFor="let item of four"> {{ item.name +' '+item.lastname }} </span>
+                                        <span class="badge badge-primary m-1" *ngFor="let item of four"> {{ item.name +' '+item.lastname }} </span>
                                     </div>
 
                                 </div>
@@ -340,6 +343,54 @@ MODAL NIVELES DEL CLIENTE
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================= 
+MODAL EDITAR REFERDIO
+======================================================== -->
+<div id="edit-refer" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" #modalNewUser>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Editar Referido del cliente</h4>
+            </div>
+            <div class="modal-body">
+
+                <div *ngIf="clientSelect" class="card card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <h3 class="box-title m-b-0"> {{ clientSelect.name + clientSelect.lastname }} </h3>
+                            <address>
+                                {{ clientSelect.address }}
+                                <br>
+                                <abbr title="Email">M:</abbr> {{ clientSelect.email }}
+                            </address>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Codigo</label>
+                                <input type="text" #icode class="form-control" id="exampleInputEmail1" placeholder="Ingresar el codigo de la persona que lo refirio">
+                            </div>
+
+                            <button type="button" (click)="updateRefer(icode.value)" class="btn btn-success waves-effect waves-light m-r-10">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" #btRf>Cerrar</button>
             </div>
         </div>
     </div>

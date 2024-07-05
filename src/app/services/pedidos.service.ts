@@ -58,4 +58,11 @@ export class PedidosService {
   updatePedido(formData: any, id: string){
     return this.http.put<({ok: Boolean, pedido: Pedido})>(`${base_url}/pedidos/${id}`, formData, this.headers);
   }
+  
+  /** ================================================================
+   *  UPDATE PEDIDO
+  ==================================================================== */
+  deletePedido(id: string){
+    return this.http.delete<({ok: Boolean, msg: string})>(`${base_url}/pedidos/${id}`, this.headers);
+  }
 }
