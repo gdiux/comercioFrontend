@@ -26,7 +26,6 @@ export class FacturasComponent implements OnInit {
   public query = {
     desde: 0,
     hasta: 50,
-    status: true,
     sort: {
       'fecha': -1
     }

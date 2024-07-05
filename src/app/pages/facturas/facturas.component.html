@@ -33,10 +33,12 @@
                         <tr *ngFor="let invoice of invoices">
                             <td>
                                 <a class="pointer" [routerLink]="['/dashboard/factura', invoice.iid]"> {{ invoice.invoice }} </a>
+
                             </td>
                             <td>
                                 <span *ngIf="!invoice.client">Consumidor Final</span>
                                 <span *ngIf="invoice.client"> {{ invoice.client.name }} <span *ngIf="invoice.client.lastname"> {{invoice.client.lastname}} </span> </span>
+                                <span *ngIf="!invoice.status" class="label label-danger label-rounded">Cancelada</span>
 
                             </td>
                             <td> {{ invoice.amount | currency:'COP' : 'symbol' : '1.0-0' }} </td>

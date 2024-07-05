@@ -59,4 +59,41 @@ export class FacturaComponent implements OnInit {
 
   }
 
+  /** ================================================================
+   *  RETURN INVOICE
+  ==================================================================== */
+  returnInvoice( invoice: Invoice ){
+
+    if (invoice.status) {
+      Swal.fire({
+        title: "Estas seguro?",
+        text: "De cancelar esta factura!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, cancelar!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          this.invoicesService.returnInvoice( {status: false}, invoice.iid! )
+          .subscribe( ({invoice}) => {
+
+            this.invoice.status = invoice.status;
+
+          }, (err) => {
+            console.log(err);
+            Swal.fire('Error', err.error.msg, 'error');            
+          })
+
+        }
+      }); 
+      
+      
+
+    }
+
+  }
+
 }

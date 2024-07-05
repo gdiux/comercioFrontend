@@ -1,7 +1,16 @@
+<div *ngIf="invoice" class="d-flex justify-content-end mb-3">
+
+    <button (click)="returnInvoice(invoice)" type="button" class="btn btn-danger">
+        Cancelar
+    </button>
+
+
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div *ngIf="invoice" class="card card-body printableArea">
-            <h3><b>FACTURA</b> <span class="pull-right"># {{invoice.invoice}} </span></h3>
+            <h3><b>FACTURA</b> <span class="pull-right"># {{invoice.invoice}} </span> <span class="text-danger" *ngIf="!invoice.status"> CANCELADA</span> </h3>
             <hr>
             <div class="row">
                 <div class="col-md-12">

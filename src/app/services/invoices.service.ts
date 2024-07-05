@@ -60,5 +60,12 @@ export class InvoicesService {
     return this.http.put<({ok: Boolean, invoice: Invoice})>(`${base_url}/invoices/${id}`, formData, this.headers);
   }
 
+  /** ================================================================
+   *  RETURN INVOICE
+  ==================================================================== */
+  returnInvoice(formData: any, id: string){
+    return this.http.put<({ok: Boolean, invoice: Invoice})>(`${base_url}/invoices/cancel/${id}`, formData, this.headers);
+  }
+
 
 }
