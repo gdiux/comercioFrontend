@@ -187,6 +187,7 @@ export class ClientesComponent implements OnInit {
 
     this.editClientForm.reset({
       name: client.name, 
+      lastname: client.lastname, 
       phone: client.phone, 
       cedula: client.cedula || '', 
       email: client.email || '', 
@@ -205,6 +206,7 @@ export class ClientesComponent implements OnInit {
   public editClientSubmitted: boolean = false;
   public editClientForm = this.fb.group({
     name: ['', [Validators.required]],
+    lastname: ['', [Validators.required]],
     phone: ['', [Validators.required]],
     cedula: [''],
     email: [''],
@@ -353,6 +355,42 @@ export class ClientesComponent implements OnInit {
     }
 
   }
+
+  /** ======================================================================
+   * DELETE CLIENTE
+  ====================================================================== */
+  deleteClient(cid: string, i: any){
+
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "De eliminar este cliente!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, eliminar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.clientsService.deleteClient(cid)
+        .subscribe( ({ok, client}) => {
+
+          if (ok) {
+            this.clients.splice(i, 1);
+            this.clientsTemp.splice(i, 1);
+
+            Swal.fire('Estupendo', 'Se ha desactivado el cliente exitosamente!', 'success');            
+          }
+
+
+        }, (err) => {
+          console.log(err);
+          Swal.fire('Error', err.error.msg, 'error');          
+        })
+      }
+    });    
+
+  };
   
   // FIN DE LA CLASE
 }

@@ -68,4 +68,11 @@ export class ClientsService {
     return this.http.put<{ok: boolean, client: Client}>(`${base_url}/clients/${id}`, formData, this.headers);
   }
 
+  /** ================================================================
+   *  DELETE CLIENT
+  ==================================================================== */
+  deleteClient(id: string){
+    return this.http.delete<({ok: Boolean, client: Client})>(`${base_url}/clients/${id}`, this.headers);
+  }
+
 }

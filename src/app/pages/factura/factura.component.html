@@ -16,7 +16,7 @@
                     <div class="pull-right text-right">
                         <address>
                             <h3>Cliente o Razón Social,</h3>
-                            <h4 class="font-bold" *ngIf="invoice.client"> {{ invoice.create?.name + ' '+ invoice.client?.lastname  }} </h4>
+                            <h4 class="font-bold text-capitalize" *ngIf="invoice.client"> {{ invoice.client.name + ' '+ invoice.client.lastname  }} </h4>
                             <h4 class="font-bold" *ngIf="!invoice.client"> Consumidor Final </h4>
                             <p class="text-muted m-l-30"> {{ invoice.client?.address  }}
                             <p class="m-t-30">
@@ -104,7 +104,7 @@
                     <div class="">
                         <address>
                             <h4 class="text-black mb-0">Cliente o Razón Social:</h4>
-                            <p class="text-black mb-1" *ngIf="invoice.client" > {{ invoice.create?.name + ' '+ invoice.client?.lastname }} </p>
+                            <p class="text-black mb-1 text-capitalize" *ngIf="invoice.client" > {{ invoice.client.name + ' '+ invoice.client.lastname }} </p>
                             <p class="text-black mb-1" *ngIf="!invoice.client" >Consumidor Final </p>
                             <p class="text-black"> {{ invoice.client?.address }}
                             <p class="">Factura: {{ invoice.invoice }} </p>

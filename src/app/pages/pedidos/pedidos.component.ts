@@ -165,9 +165,7 @@ export class PedidosComponent implements OnInit {
           Swal.fire('Error', err.error.msg, 'error');          
         })
       }
-    });
-
-    
+    });    
 
   };
 

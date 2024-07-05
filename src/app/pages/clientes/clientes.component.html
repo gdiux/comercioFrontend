@@ -59,10 +59,10 @@
                                 </td>
                             </tr>
 
-                            <tr *ngFor="let client of clients">
+                            <tr *ngFor="let client of clients; let i = index">
                                 <td>
                                     <button type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#products-client">
-                                        {{ client.name }} 
+                                        {{ client.name }} {{ client.lastname || '' }} 
                                     </button>
                                 </td>
                                 <td> {{ client.phone }} </td>
@@ -82,6 +82,9 @@
                                     </button>
                                     <button (click)="clientSelect = client" type="button" class="btn btn-sm btn-icon btn-pure btn-outline text-primary delete-row-btn" data-toggle="modal" data-target="#edit-refer">
                                         <i class="ti-list" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" (click)="deleteClient(client.cid!, i)" class="btn btn-sm btn-icon btn-pure btn-outline text-danger delete-row-btn">
+                                        <i class="ti-trash" aria-hidden="true"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -194,6 +197,13 @@ MODAL EDITAR CLIENTE
                             <input formControlName="name" type="text" class="form-control" placeholder="Nombres **">
                             <div *ngIf="validateEditForm('name')" class="form-control-feedback">
                                 <small> Los nombres son obligatorios </small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 m-b-20">
+                            <input formControlName="lastname" type="text" class="form-control" placeholder="Apellidos **">
+                            <div *ngIf="validateEditForm('lastname')" class="form-control-feedback">
+                                <small> Los apellidos son obligatorios </small>
                             </div>
                         </div>
 
