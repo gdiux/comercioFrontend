@@ -37,6 +37,7 @@ const routes: Routes = [
           { path: 'clientes', component: ClientesComponent, canActivate: [AdminGuard], data:{ title: 'Clientes' } },
           { path: 'categorias', component: CategoriasComponent, canActivate: [AdminGuard], data:{ title: 'Categorias' } },
           { path: 'facturar', component: FacturarComponent, canActivate: [AdminGuard], data:{ title: 'Facturación' } },
+          { path: 'facturar/:client', component: FacturarComponent, canActivate: [AdminGuard], data:{ title: 'Facturación' } },
           { path: 'facturas', component: FacturasComponent, canActivate: [AdminGuard], data:{ title: 'Facturas' } },
           { path: 'factura/:id', component: FacturaComponent, canActivate: [AdminGuard], data:{ title: 'Factura' } },
           { path: 'subcategorias', component: SubcategoriasComponent, canActivate: [AdminGuard], data:{ title: 'Subcategorias' } },

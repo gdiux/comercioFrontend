@@ -1,10 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { NgxPrinterService } from 'ngx-printer';
 
 // MODELS
-import { Invoice } from 'src/app/models/invoices.model';
+import { _Payments, Invoice } from 'src/app/models/invoices.model';
 
 // SERVICES
 import { InvoicesService } from 'src/app/services/invoices.service';
@@ -43,19 +43,78 @@ export class FacturaComponent implements OnInit {
    *  LOAD INVOICE
   ==================================================================== */
   public invoice!: Invoice;
+  public saldo: number = 0;
   loadInvoice(id: string){
 
     this.invoicesService.loadInvoiceId(id)
         .subscribe( ({invoice}) => {
 
           this.invoice = invoice;
-          console.log(invoice);
-          
+          this.restante = 0;
+          for (const pay of this.invoice.payments!) {
+            this.restante += pay.monto;
+            this.totalPay += pay.monto;
+
+            if (pay.type === 'bono') {
+              this.saldo += pay.monto;
+            }
+
+          }
+
+          this.restante -= this.invoice.amount;
 
         }, (err) => {
           console.log(err);
           Swal.fire('Error', err.error.msg, 'error');          
         })
+
+  }
+
+  /** ================================================================
+   *  PAGOS
+  ==================================================================== */
+  @ViewChild('montoP') montoP!: ElementRef;
+  public restante: number = 0;
+  public payments: _Payments[] = [];
+  public totalPay: number = 0;
+  
+  addPay(monto: any, type: string){
+
+    monto = Number(monto);
+
+    this.payments.push({
+      type,
+      monto
+    });
+
+    this.restante = 0;
+    for (const pay of this.payments) {
+      this.restante = this.restante + pay.monto;
+    }
+    
+    this.restante = this.restante - this.invoice.amount;
+    this.totalPay += monto;
+
+    if (this.montoP) {
+      this.montoP.nativeElement.value = '';      
+      this.montoP.nativeElement.focus();
+    }
+
+  }
+
+  delPay(pay: any){    
+
+    this.payments.splice( pay, 1 );
+    this.restante = 0;
+    this.totalPay = 0;
+    for (const pay of this.payments) {
+      this.restante = this.restante + pay.monto;
+      this.totalPay += pay.monto;
+    }
+
+    this.restante = this.restante - this.invoice.amount;
+    this.montoP.nativeElement.onFocus = true;
+    this.montoP.nativeElement.value = '';
 
   }
 

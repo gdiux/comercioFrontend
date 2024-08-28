@@ -48,6 +48,13 @@ export class ClientsService {
   }
 
   /** ================================================================
+   *   LOAD CLIENTS
+  ==================================================================== */
+  loadClientById(cid: string){
+    return this.http.get<{ok: boolean, client: Client}>( `${base_url}/clients/by/${cid}`, this.headers );
+  }
+
+  /** ================================================================
    *   LOAD LEVELS
   ==================================================================== */
   loadLevelsClients(cid: string){

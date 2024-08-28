@@ -52,13 +52,16 @@ export class PedidoComponent implements OnInit {
 
           if (pedido.amount < 100000) {
             pedido.amount += 5000;
-          }
-
-          if (pedido.amount - pedido.saldo < 100000) {
+          }else if (pedido.amount - pedido.saldo < 100000) {
             pedido.amount += 5000;
           }
 
           this.pedido = pedido;          
+
+          if (pedido.saldo) {
+            this.addPay(pedido.saldo, 'bono');
+          }
+
 
         }, (err) =>{
           console.log(err);
@@ -73,6 +76,7 @@ export class PedidoComponent implements OnInit {
   @ViewChild('montoP') montoP!: ElementRef;
   public restante: number = 0;
   public payments: _Payments[] = [];
+  public totalPay: number = 0;
   
   addPay(monto: any, type: string){
 
@@ -87,12 +91,14 @@ export class PedidoComponent implements OnInit {
     for (const pay of this.payments) {
       this.restante = this.restante + pay.monto;
     }
-
+    
     this.restante = this.restante - this.pedido.amount;
+    this.totalPay += monto;
 
-    this.montoP.nativeElement.onFocus = true;
-    this.montoP.nativeElement.value = '';
-
+    if (this.montoP) {
+      this.montoP.nativeElement.value = '';      
+      this.montoP.nativeElement.focus();
+    }
 
   }
 
@@ -100,8 +106,10 @@ export class PedidoComponent implements OnInit {
 
     this.payments.splice( pay, 1 );
     this.restante = 0;
+    this.totalPay = 0;
     for (const pay of this.payments) {
       this.restante = this.restante + pay.monto;
+      this.totalPay += pay.monto;
     }
 
     this.restante = this.restante - this.pedido.amount;
@@ -116,12 +124,7 @@ export class PedidoComponent implements OnInit {
    *  CREATE INVOICE
   ==================================================================== */
   public facturando: boolean = false;
-  createInvoice(){
-
-    if (this.restante < 0) {
-      Swal.fire('Atención', 'No ha cancelado el total de la factura', 'warning');
-      return;
-    }
+  async createInvoice(){    
 
     this.facturando = true;
 

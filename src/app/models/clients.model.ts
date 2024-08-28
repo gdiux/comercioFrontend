@@ -1,3 +1,5 @@
+import { Carrito } from "../interfaces/carrito.interface";
+
 export class Client {
 
     constructor(
@@ -15,7 +17,9 @@ export class Client {
         public referredBy?: string,
         public walletBalance?: number,
         public status?: boolean,
+        public activo?: boolean,
         public fecha?: Date,
+        public carrito?: Carrito,
         public cid?: string,
         public _id?: string,
     ){}

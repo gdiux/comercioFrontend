@@ -17,6 +17,7 @@ import { Items } from 'src/app/interfaces/items.interface';
 import { Invoice, _Payments } from 'src/app/models/invoices.model';
 
 import { environment } from '../../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
 
 const local_url = environment.local_url;
 
@@ -37,9 +38,15 @@ export class FacturarComponent implements OnInit {
 
   constructor(  private productsService: ProductsService,
                 private clientsService: ClientsService,
+                private activatedRoute: ActivatedRoute,
                 private searchService: SearchService,
                 private fb: FormBuilder,
-                private invoicesService: InvoicesService) { }
+                private invoicesService: InvoicesService) { 
+
+                  // SI EXITE CLIENTE
+                  activatedRoute.params.subscribe(({client}) => { if (client) this.loadClientRoute(client) })
+
+                }
 
   ngOnInit(): void {
 
@@ -48,6 +55,29 @@ export class FacturarComponent implements OnInit {
       cedula: '222222222222',
       email: ''
     }
+
+  }
+
+  /** ================================================================
+   *   LOAD CLIENT ROUTE
+  ==================================================================== */
+  loadClientRoute(cid: string){
+
+    this.clientsService.loadClientById(cid)
+        .subscribe( ({client}) => {
+
+          this.selectClient(client);  
+
+          if (client.carrito?.items.length! > 0) {
+            for (const it of client.carrito?.items!) {
+              this.addItem(it.product, it.qty, it.price)
+            }
+          }
+
+        }, (err) => {
+          console.log(err);
+          Swal.fire('Error', err.error.msg, 'error');          
+        })
 
   }
 

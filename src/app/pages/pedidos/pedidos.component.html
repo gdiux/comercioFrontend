@@ -92,7 +92,7 @@
                                 <td>
                                     <span class="label " [ngClass]="{'label-warning': pedido.estado === 'Pendiente', 'label-primary': pedido.estado === 'Procesando', 'label-info': pedido.estado === 'Enviando', 'label-success': pedido.estado === 'Entregado'}"> {{ pedido.estado }} </span>
                                 </td>
-                                <td>14-10-2017</td>
+                                <td> {{ pedido.fecha | date: 'short' }} </td>
                                 <td>
                                     <a [routerLink]="['/dashboard/pedido', pedido.peid]" class="btn btn-sm btn-icon btn-pure btn-outline delete-row-btn">
                                         <i class="ti-arrow-top-right" aria-hidden="true"></i>

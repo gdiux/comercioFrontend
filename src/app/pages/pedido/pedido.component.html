@@ -36,7 +36,7 @@
                     <div class="pull-right text-right">
                         <address>
                             <h3>Cliente o Razón Social,</h3>
-                            <h4 class="font-bold"> {{ pedido.client.name }} </h4>
+                            <h4 class="font-bold"> {{ pedido.client.name + ' '+ pedido.client.lastname  }} </h4>
                             <p class="text-muted m-l-30"> {{ pedido.client.address }}
                             <p class="m-t-30">
                                 <b>Fecha :</b> <i class="fa fa-calendar"></i> {{ pedido.fecha | date: 'short' }}
@@ -78,8 +78,13 @@
                 <div class="col-md-12">
                     <div class="pull-right m-t-30 text-right">
                         <p>Sub-Total: {{ pedido.amount | currency:'COP' }} </p>
+                        <p class="text-danger" *ngIf="pedido.saldo"><b>Bono :</b> {{ pedido.saldo * -1 | currency:'COP' }} </p>
                         <hr>
-                        <h3><b>Total :</b> {{ pedido.amount | currency:'COP' }} </h3>
+                        <h3><b>Total :</b>
+                            <span *ngIf="pedido.saldo">{{ pedido.amount - pedido.saldo| currency:'COP' }}</span>
+                            <span *ngIf="!pedido.saldo">{{ pedido.amount | currency:'COP' }}</span>
+
+                        </h3>
                     </div>
                     <div class="clearfix"></div>
                     <hr>
@@ -171,16 +176,18 @@
                     <div class="text-center">
                         <address>
                             <h3> &nbsp;<b class="text-black">Comercio Llanero</b></h3>
-                            <p class="mb-0 text-black">Nit 1118533565</p>
+                            <p class="mb-0 text-black">Nit 1118547433</p>
                             <p class="mb-0 text-black">BODEGA PRINCIPAL LA BENDICIÓN</p>
                             <p class="mb-0 text-black">Teléfono 3044419848</p>
                             <p class="mb-0 text-black">comerciollanero@gmail.com</p>
                         </address>
                     </div>
                     <div class="">
-                        <address>
+                        <address style="line-height: normal;">
                             <h4 class="text-black mb-0">Cliente o Razón Social:</h4>
-                            <p class="text-black mb-1"> {{ pedido.client.name }} </p>
+                            <p class="text-black mb-0"> {{ pedido.client.name + ' '+ pedido.client.lastname  }} </p>
+                            <p class="text-black mb-0" *ngIf="pedido.client.phone" > {{ pedido.client.phone }} </p>
+                            <p class="text-black mb-0" *ngIf="pedido.client.city" > {{ pedido.client.city }} </p>
                             <p class="text-black"> {{ pedido.client.address }}
                             <p class="">Factura: {{ pedido.invoice.invoice }} </p>
                             <p class="text-black"> <b>Fecha :</b> <i class="fa fa-calendar"></i> {{ pedido.fecha | date: 'short' }} </p>
@@ -208,6 +215,7 @@
                                     </td>
                                 </tr>
 
+
                                 <!-- TOTAL -->
                                 <tr class="" style="border-top: 2px solid black;">
                                     <td>
@@ -218,6 +226,26 @@
                                     </td>
                                 </tr>
                                 <!-- TOTAL -->
+
+                                <!-- BONO -->
+                                <tr *ngIf="pedido.saldo" class="" style="border-top: 2px solid black;">
+                                    <td>
+                                        <h6 class="mb-0 text-wrap text-left text-black">Bono</h6>
+                                    </td>
+                                    <td colspan="2" class="fw-bold">
+                                        <h6 class="mb-0 text-wrap text-rigth text-black"> {{ pedido.saldo * -1| currency: 'COP' }} </h6>
+                                    </td>
+                                </tr>
+
+                                <!-- RESTANTE -->
+                                <tr *ngIf="restante !== 0" class="" style="border-top: 2px solid black;">
+                                    <td>
+                                        <h6 class="mb-0 text-wrap text-left text-black">Restante</h6>
+                                    </td>
+                                    <td colspan="2" class="fw-bold">
+                                        <h6 class="mb-0 text-wrap text-rigth text-black"> {{ restante | currency: 'COP'}} </h6>
+                                    </td>
+                                </tr>
 
                             </tbody>
                         </table>
